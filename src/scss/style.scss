@@ -1,0 +1,309 @@
+// ==========================================================
+// INM320 Assignment 3 - Sass (SCSS) version of the stylesheet
+// ==========================================================
+
+// ---------- Variables ----------
+$body-font: Quando;
+$heading-font: 'Josefin Sans', sans-serif;
+$text-color: #787878;
+$dark-color: #111111;
+$navy-color: #324360;
+$accent-color: #35c4ce;
+$muted-color: #989898;
+$footer-bg: #eaf2ff;
+$logo-width: 200px;
+$desktop-breakpoint: 650px;
+
+// ---------- Mixins ----------
+// Centers children with flexbox
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// Colour + hover colour for links
+@mixin link-colors($color, $hover-color) {
+    color: $color;
+
+    &:hover {
+        color: $hover-color;
+    }
+}
+
+// Centered logo with a configurable width and vertical margin
+@mixin logo($width: $logo-width, $vertical-margin: 20px) {
+    width: $width;
+    margin: $vertical-margin auto;
+}
+
+// Desktop media query wrapper
+@mixin desktop {
+    @media only screen and (min-width: $desktop-breakpoint) {
+        @content;
+    }
+}
+
+// ---------- Base styles ----------
+body {
+    font-family: $body-font;
+    font-size: 15px;
+    color: $text-color;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+p {
+    margin-bottom: 25px;
+    line-height: 1.6em;
+}
+
+a {
+    font-weight: 400;
+    text-decoration: none;
+    transition: .20s;
+    @include link-colors($dark-color, #999999);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-top: 25px;
+    margin-bottom: 20px;
+    font-family: $heading-font;
+    font-weight: 400;
+    line-height: 1.3em;
+    word-wrap: break-word;
+    color: $dark-color;
+}
+
+h1 { font-size: 37px; }
+h2 { font-size: 31px; }
+h3 { font-size: 26px; }
+h4 { font-size: 21px; }
+h5 { font-size: 18px; }
+h6 { font-size: 15px; }
+
+.container {
+    width: 94%;
+    margin: 0 auto;
+}
+
+// ---------- Header and main nav ----------
+header {
+    font-family: $heading-font;
+
+    nav {
+        ul {
+            display: none;
+        }
+    }
+}
+
+.top-logo {
+    @include logo($logo-width, 20px);
+    margin-bottom: 40px;
+}
+
+// ---------- Posts ----------
+article {
+    margin-bottom: 50px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.image-part {
+    margin-bottom: 10px;
+}
+
+.post-title {
+    margin-top: 0;
+
+    a {
+        color: $navy-color;
+        text-transform: uppercase;
+        font-size: 26px;
+        font-weight: 900;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        line-height: 1.3em;
+        transition: all .3s ease;
+
+        &:hover {
+            color: $accent-color;
+        }
+    }
+}
+
+// ---------- Footer ----------
+footer {
+    padding: 30px 0;
+    text-align: center;
+    background: $footer-bg;
+    color: $muted-color;
+}
+
+#footer {
+    a {
+        @include link-colors($muted-color, $dark-color);
+    }
+}
+
+.footer-logo {
+    @include logo;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.footer-social-links {
+    padding: 20px 0;
+    line-height: 2em;
+
+    a {
+        margin: 0 10px;
+        font-size: 16px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+
+        span {
+            display: none;
+        }
+    }
+}
+
+#footer-copyright {
+    padding: 20px 0;
+    font-size: 12px;
+    color: $muted-color;
+}
+
+// ---------- Desktop (min-width: 650px) ----------
+@include desktop {
+    .container {
+        width: 90%;
+    }
+
+    header {
+        nav {
+            max-width: 1170px;
+            margin: 0 auto;
+            @include flex-center;
+            height: 60px;
+
+            ul {
+                display: flex;
+
+                ul {
+                    // sub nav
+                    visibility: hidden;
+                    opacity: 0;
+                    display: block;
+                    position: absolute;
+                    z-index: 9999;
+                    left: 0;
+                    background: #f0f0f0;
+                    transition: all 0.2s ease-out;
+
+                    li {
+                        border-top: 1px solid #e9e9e9;
+                        margin: 0;
+                    }
+
+                    a {
+                        display: block;
+                        color: $dark-color;
+                        min-width: 175px;
+                        margin: 0;
+                        padding: 20px 10px;
+                        line-height: 1.4em;
+                        letter-spacing: 1px;
+                        transition: .35s;
+
+                        &:hover {
+                            background: #ffffff;
+                            color: #000;
+                        }
+                    }
+                }
+
+                li:hover ul {
+                    visibility: visible;
+                    opacity: 1;
+                }
+            }
+
+            li {
+                margin: 0 15px;
+                position: relative;
+                line-height: 24px;
+
+                &.menu-item-has-children > a::after {
+                    margin-left: 7px;
+                    font-family: 'Font Awesome 5 Free';
+                    font-size: 13px;
+                    color: $navy-color;
+                    content: '\f078';
+                }
+            }
+
+            a {
+                font-family: $heading-font;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                font-size: 12px;
+                font-weight: 900;
+                @include link-colors($navy-color, $accent-color);
+            }
+        }
+    }
+
+    .current-menu-item a {
+        border-bottom: 2px solid $navy-color;
+    }
+
+    // posts
+    article {
+        display: flex;
+    }
+
+    .image-part {
+        flex: 1;
+        overflow: hidden;
+        margin-bottom: 0;
+
+        img {
+            transition: transform 3.5s ease-in-out;
+
+            &:hover {
+                transform: scale(1.5, 1.5);
+            }
+        }
+    }
+
+    .content-part {
+        flex: 1;
+        padding-left: 50px;
+    }
+
+    // footer
+    .footer-social-links {
+        a {
+            margin: 0 28px;
+
+            span {
+                display: inline;
+                font-size: 11px;
+            }
+        }
+
+        i {
+            margin-right: 5px;
+        }
+    }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "inm320-assign3-css-precompiler",
+  "version": "1.0.0",
+  "description": "INM320 Assignment 3 - Sass precompiler project",
+  "main": "index.js",
+  "scripts": {
+    "sass:build": "sass src/scss/style.scss public/assets/css/style.css",
+    "sass:watch": "sass --watch src/scss/style.scss:public/assets/css/style.css",
+    "serve": "lite-server --baseDir=public",
+    "start": "npm run sass:build && concurrently \"npm:sass:watch\" \"npm:serve\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^10.0.6",
+    "lite-server": "^2.6.1",
+    "sass": "^1.105.2"
+  }
+}
